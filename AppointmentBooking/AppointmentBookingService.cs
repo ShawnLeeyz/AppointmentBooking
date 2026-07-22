@@ -6,14 +6,21 @@ namespace AppointmentBooking
 {
     public class AppointmentBookingService
     {
-        public bool BookAppointment(AppointmentRequest request)
+        public BookingResult BookAppointment(AppointmentRequest request)
         {
-            if(request.Doctor.AvailableSlots <= 0)
+            if (request == null)
+                return new BookingResult(false, "Appointment request is missing.");
+            if (!request.Doctor.HasAvailableSlot())
             {
-                return false;
+                return new BookingResult(
+                false,
+                $"Appointment cannot be booked because {request.Doctor.FullName} has no available slots.");
             }
-            request.Doctor.AvailableSlots--;
-            return true;
+            request.Doctor.ReserveSlot();
+            return new BookingResult(
+            true,
+            $"Appointment booked successfully for {request.Patient.DisplayName} with {request.
+            Doctor.FullName}.");
         }
     }
 }
