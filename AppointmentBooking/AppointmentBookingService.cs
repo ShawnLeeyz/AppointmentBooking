@@ -16,11 +16,20 @@ namespace AppointmentBooking
                 false,
                 $"Appointment cannot be booked because {request.Doctor.FullName} has no available slots.");
             }
+
+            //Check if the patient is able to book an appointment with the doctor on the right day (cannot be the current date)
+            if(request.Doctor.HasAvailableSlot() && Doctor.) {
+
             request.Doctor.ReserveSlot();
             return new BookingResult(
             true,
             $"Appointment booked successfully for {request.Patient.DisplayName} with {request.
             Doctor.FullName}.");
+
         }
+
+
     }
+
+
 }
